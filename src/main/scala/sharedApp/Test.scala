@@ -1,6 +1,6 @@
 package sharedApp
 
 object SharedMessages {
-  def itWorks = "SACOCHE!"
+  def itWorks = "YEAH!"
 }
 
