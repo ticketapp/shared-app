@@ -51,3 +51,21 @@ case object Finish
 
 @SerialVersionUID(42L)
 final case class GetEventsFacebookIdByPlace(placeFacebookId: String)
+
+@SerialVersionUID(42L)
+final case class EventFacebookId(id: String)
+
+@SerialVersionUID(42L)
+case class EventIds(eventIds: Seq[String])
+
+@SerialVersionUID(42L)
+case class SubscribeToHotness(eventIds: EventIds, name: String)
+
+@SerialVersionUID(42L)
+case class GetLastCounts(eventIds: Seq[String])
+
+@SerialVersionUID(42L)
+case class GetUniqueAttendeesCount(eventIds: Seq[String])
+
+@SerialVersionUID(42L)
+case class WhereDoesMyPublicGo(eventId: String)

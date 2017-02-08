@@ -81,4 +81,8 @@ object JsonHelper {
   implicit def enumWrites[E <: Enumeration]: Writes[E#Value] = new Writes[E#Value] {
     def writes(v: E#Value): JsValue = JsString(v.toString)
   }
+
+  val dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+  implicit val jodaDateReads: Reads[DateTime] = play.api.libs.json.Reads.jodaDateReads(dateFormat)
+  implicit val jodaDateWrites: Writes[DateTime] = play.api.libs.json.Writes.jodaDateWrites(dateFormat)
 }
