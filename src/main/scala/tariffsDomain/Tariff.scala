@@ -16,3 +16,10 @@ final case class Tariff(tariffId: Option[Long] = None,
 object Tariff {
   implicit val tariffFormat: Format[Tariff] = Json.format[Tariff]
 }
+
+object Currency extends Enumeration {
+  sealed abstract class Val extends Enumeration
+  case object EUR extends Val
+  case object GPB extends Val
+  case object USD extends Val
+}

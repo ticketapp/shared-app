@@ -1,7 +1,7 @@
 package artistsDomain
 
 import genresDomain.{Genre, GenreWithWeight}
-import play.api.libs.json.{Format, Json}
+import play.api.libs.json.{Format, Json, OFormat}
 
 @SerialVersionUID(42L)
 final case class Artist(facebookId: String,
@@ -22,7 +22,7 @@ object Artist {
 final case class ArtistWithWeightedGenres(artist: Artist, genres: Seq[GenreWithWeight] = Seq.empty)
 
 object ArtistWithWeightedGenres {
-  implicit val artistWithGenresFormat = Json.format[ArtistWithWeightedGenres]
+  implicit val artistWithGenresFormat: OFormat[ArtistWithWeightedGenres] = Json.format[ArtistWithWeightedGenres]
 }
 
 final case class PatternAndArtist(searchPattern: String, artistWithWeightedGenres: ArtistWithWeightedGenres)
