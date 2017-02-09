@@ -17,12 +17,18 @@ object JsonHelper {
     def writes(char: Char): JsString = JsString(char.toString)
   }
 
-  implicit object ActorRefWrites extends Writes[ActorRef] {
-    def writes(actorRef: ActorRef): JsString = JsString(actorRef.toString)
-  }
-
   implicit object CharReads extends Reads[Char] {
     def reads(char: JsValue): JsResult[Char] = JsSuccess(Json.stringify(char)(1))
+  }
+
+  implicit val charFormat = new Format[Char] {
+    def reads(jsValue: JsValue): JsResult[Char] = CharReads.reads(jsValue)
+
+    def writes(char: Char): JsString = CharWrites.writes(char)
+  }
+
+  implicit object ActorRefWrites extends Writes[ActorRef] {
+    def writes(actorRef: ActorRef): JsString = JsString(actorRef.toString)
   }
 
   implicit object TimestampReads extends Reads[Timestamp] {
@@ -34,7 +40,8 @@ object JsonHelper {
 
     def writes(t: Timestamp): JsValue = Json.toJson(timestampToDateTime(t))
 
-    def reads(jsValue: JsValue): JsResult[Timestamp] = JsSuccess(new Timestamp(Json.stringify(jsValue).toLong))
+    def reads(jsValue: JsValue): JsResult[Timestamp] =
+      JsSuccess(new Timestamp(new DateTime(jsValue.toString.stripPrefix("\"").stripSuffix("\"")).getMillis))
   }
 
   def geomJsonFormat[G <: Geometry]: Format[G] = Format[G](
@@ -82,7 +89,7 @@ object JsonHelper {
     def writes(v: E#Value): JsValue = JsString(v.toString)
   }
 
-  val dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-  implicit val jodaDateReads: Reads[DateTime] = play.api.libs.json.Reads.jodaDateReads(dateFormat)
-  implicit val jodaDateWrites: Writes[DateTime] = play.api.libs.json.Writes.jodaDateWrites(dateFormat)
+  val dateTimeFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+  implicit val jodaDateReads: Reads[DateTime] = Reads.jodaDateReads(dateTimeFormat)
+  implicit val jodaDateWrites: Writes[DateTime] = Writes.jodaDateWrites(dateTimeFormat)
 }
