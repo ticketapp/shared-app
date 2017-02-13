@@ -38,10 +38,10 @@ final case class WikipediaPlace(venue: String, room: Option[String] = None, addr
 case object IncrementCounter
 
 @SerialVersionUID(42L)
-final case class GetEventsByIds(ids: Seq[String])
+final case class GetEventsByIds(eventFacebookIds: Seq[String])
 
 @SerialVersionUID(42L)
-final case class GetEventsById(id: String)
+final case class GetEventById(eventFacebookId: String)
 
 @SerialVersionUID(42L)
 final case class GetEventsByOrganizer(id: String)
@@ -56,10 +56,10 @@ final case class GetEventsFacebookIdByPlace(placeFacebookId: String)
 final case class EventFacebookId(id: String)
 
 @SerialVersionUID(42L)
-case class EventIds(eventIds: Seq[String])
+case class EventFacebookIds(eventIds: Seq[String])
 
 @SerialVersionUID(42L)
-case class SubscribeToHotness(eventIds: EventIds, name: String)
+case class SubscribeToHotness(eventIds: EventFacebookIds, name: String)
 
 @SerialVersionUID(42L)
 case class GetLastCounts(eventIds: Seq[String])
